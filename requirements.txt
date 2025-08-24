@@ -1,0 +1,35 @@
+# Core Agentic Framework (Python 3.12.10 compatible)
+langchain
+langgraph
+langchain-community
+langchain-openai
+langchain-core
+
+# API Framework
+fastapi
+uvicorn[standard]
+pydantic
+pydantic-settings
+
+# Vector Database
+pgvector
+asyncpg
+
+# Embeddings
+sentence-transformers
+# torch
+
+# LLM Providers (via LangChain)
+openai
+
+# Document Processing
+PyPDF2
+python-docx
+python-multipart
+pdfplumber
+pytesseract
+Pillow
+camelot-py[cv]
+
+# Utilities
+python-dotenv

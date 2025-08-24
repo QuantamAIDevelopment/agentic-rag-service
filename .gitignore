@@ -1,0 +1,124 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Database
+*.db
+*.sqlite3
+
+# Temporary files
+*.tmp
+*.temp
+temp/
+tmp/
+
+# Model files (large)
+*.bin
+*.safetensors
+
+# Data files
+data/
+uploads/
+documents/
+
+# Cache
+.cache/
+.pytest_cache/
+.mypy_cache/
+
+# Coverage
+.coverage
+htmlcov/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Environment variables
+.env
+.env.local
+.env.production
+
+# Test files
+test_*.py
+clear_and_test.py
+add_sample_content.py
+test_department_stores.py
+
+# Vector store data
+vector_data/
+
+# API keys and secrets
+*.key
+*.pem
+secrets/
+
+# Backup files
+*.bak
+*.backup
+
+# Node modules (if any)
+node_modules/
+
+# Docker
+.dockerignore
+Dockerfile
+docker-compose.yml
+
+# Deployment
+.terraform/
+*.tfstate
+*.tfvars
+
+# Docs
+docs/
+
+#scripts
+scripts/
