@@ -29,7 +29,13 @@ python-multipart
 pdfplumber
 pytesseract
 Pillow
-camelot-py[cv]
+
+# Advanced table extraction
+camelot-py[cv]>=0.10.1
+# Note: Requires system dependencies:
+# Windows: Visual C++ Build Tools
+# Linux: python3-tk, ghostscript  
+# macOS: ghostscript (brew install ghostscript)
 
 # Utilities
 python-dotenv

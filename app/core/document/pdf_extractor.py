@@ -39,7 +39,6 @@ try:
     CAMELOT_AVAILABLE = True
 except ImportError:
     CAMELOT_AVAILABLE = False
-    print("Camelot not available. Install camelot-py for advanced table extraction.")
 
 class PDFExtractor:
     def extract_text_from_bytes(self, pdf_bytes: bytes) -> str:
@@ -92,6 +91,17 @@ class PDFExtractor:
                             print(f"Page {page_num + 1}: Table content extracted")
                     except Exception:
                         pass
+                    
+                    # Step 2.5: Advanced Camelot table extraction if available
+                    if not content_found and CAMELOT_AVAILABLE:
+                        try:
+                            camelot_text = self.extract_with_camelot_page(pdf_bytes, page_num + 1)
+                            if camelot_text and camelot_text.strip():
+                                page_text += camelot_text + "\n"
+                                content_found = True
+                                print(f"Page {page_num + 1}: Camelot table content extracted")
+                        except Exception:
+                            pass
                     
                     # Step 3: Enhanced OCR with multiple configurations
                     if OCR_AVAILABLE and (not content_found or len(page_text.strip()) < 50):
@@ -183,8 +193,8 @@ class PDFExtractor:
                     lines.append(line)
         return lines
     
-    def extract_with_camelot(self, pdf_bytes: bytes) -> str:
-        """Extract tables using Camelot for better table handling."""
+    def extract_with_camelot_page(self, pdf_bytes: bytes, page_num: int) -> str:
+        """Extract tables from specific page using Camelot."""
         if not CAMELOT_AVAILABLE:
             return ""
         
@@ -198,29 +208,33 @@ class PDFExtractor:
                 tmp.write(pdf_bytes)
                 tmp_path = tmp.name
             
-            # Extract tables
-            tables = camelot.read_pdf(tmp_path, pages='all')
-            table_text = ""
+            # Extract tables from specific page
+            tables = camelot.read_pdf(tmp_path, pages=str(page_num), flavor='lattice')
+            if not tables:
+                # Fallback to stream flavor
+                tables = camelot.read_pdf(tmp_path, pages=str(page_num), flavor='stream')
             
+            table_text = ""
             for i, table in enumerate(tables):
-                table_text += f"\n[Camelot Table {i+1}]\n"
-                df = table.df
-                for _, row in df.iterrows():
-                    row_text = " | ".join(str(cell).strip() for cell in row if str(cell).strip())
-                    if row_text:
-                        table_text += row_text + "\n"
+                if table.accuracy > 50:  # Only use high-accuracy tables
+                    df = table.df
+                    for _, row in df.iterrows():
+                        row_text = " | ".join(str(cell).strip() for cell in row if str(cell).strip())
+                        if row_text and len(row_text) > 5:
+                            table_text += row_text + "\n"
             
             return table_text
             
         except Exception:
-            return ""  # Suppress Camelot errors
+            return ""
         finally:
-            # Clean up temp file with better error handling
             if tmp_path and os.path.exists(tmp_path):
                 try:
                     os.unlink(tmp_path)
                 except (PermissionError, OSError):
-                    # File will be cleaned up by system temp cleanup
                     pass
 
 pdf_extractor = PDFExtractor()
+
+# Install camelot-py for advanced table extraction:
+# pip install camelot-py[cv]
